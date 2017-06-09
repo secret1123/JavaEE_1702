@@ -12,13 +12,19 @@
 </head>
 <body>
 <h1>登录</h1><%=session.getId()%>
-<form action="login.jsp" method="post">
+<form action="login" method="post">
     <input type="text" name="mobile" placeholder="手机号"><br>
     <input type="password" name="password" placeholder="密码"><br>
     <input type="submit" placeholder="登录">
 </form>
 <p><%=(request.getAttribute("message")) != null ? request.getAttribute("message") : ""%>
 </p>
+<%--<%--%>
+    <%--String message = (String) request.getAttribute("message");--%>
+    <%--if (message!=null){--%>
+        <%--out.print(message);--%>
+    <%--}--%>
+<%--%>--%>
 <a href="signup.jsp">注册</a>
 </body>
 </html>

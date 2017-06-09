@@ -12,7 +12,7 @@
 </head>
 <body>
 <h1>注册</h1>
-<form action="register.jsp" method="post">
+<form action="register" method="post">
     <input type="text" name="nick" placeholder="昵称"><br>
     <input type="text" name="mobile" placeholder="手机号"><br>
     <input type="password" name="password" placeholder="密码"><br>
