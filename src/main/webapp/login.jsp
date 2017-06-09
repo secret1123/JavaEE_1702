@@ -28,14 +28,19 @@
     ResultSet resultSet = statement.executeQuery();
 
     if (resultSet.next()) {
-
-        response.sendRedirect("home.jsp");
+        request.setAttribute("nick",resultSet.getString("nick"));
+//        response.sendRedirect("home.jsp");
+        request.getRequestDispatcher("home.jsp")
+                .forward(request,response);
     } else {
 //        response.sendRedirect("index.jsp");// redirect 重定向 地址栏有变化
         request.setAttribute("message","用户名或密码错误");// attribute 属性（string，任意类型对象）
         request.getRequestDispatcher("index.jsp")
                 .forward(request,response);// forward 转发 地址栏没有变化
     }
+    resultSet.close();
+    statement.close();
+    connection.close();
 %>
 </body>
 </html>
