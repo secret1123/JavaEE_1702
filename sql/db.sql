@@ -19,6 +19,4 @@ CREATE TABLE db_javaee.user (
 SELECT *
 FROM db_javaee.user;
 
-DELETE FROM db_javaee.user WHERE id = 2;
-
 SHOW DATABASES ;
