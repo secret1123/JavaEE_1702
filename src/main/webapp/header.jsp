@@ -14,11 +14,11 @@
         脚本元素
             声明 <%! %>  class 类体内
             小脚本 <%  %>  _jspService()方法体内
-            表达式 <%= %> out.print()方法参数
+            <%--表达式 <%= %> out.print()方法参数--%>
         指令元素
             page指令 <%@page%>
-            include指令 <%@ include %>
-            taglib指令 <%@ taglib %>
+            <%--include指令 <%@ include %>--%>
+            <%--taglib指令 <%@ taglib %>--%>
         动作元素
             include动作 <jsp:include page="" />
     </pre>
