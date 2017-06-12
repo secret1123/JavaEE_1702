@@ -31,8 +31,7 @@ public class UserAction extends HttpServlet {
             login(req,resp);
         }
         if (action.equals("logout")){
-            req.getSession().invalidate();
-            resp.sendRedirect("index.jsp");
+            logout(req,resp);
         }
     }
     private void register(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
