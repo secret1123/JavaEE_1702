@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 /**
  * Created by AnLu on
@@ -24,16 +23,23 @@ public class UserAction extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        if (action.equals("register")) {
+
+        if ("register".equals(action)) {
             register(req,resp);
+            return;
         }
-        if (action.equals("login")){
+        if ("login".equals(action)){
             login(req,resp);
+            return;
         }
-        if (action.equals("logout")){
+        if ("logout".equals(action)){
             logout(req,resp);
+            return;
         }
-    }
+            req.setAttribute("message","出了一点问题");
+            req.getRequestDispatcher("default.jsp").forward(req,resp);
+        }
+
     private void register(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
         String nick = req.getParameter("nick").trim();
         String mobile = req.getParameter("mobile").trim();
@@ -43,10 +49,6 @@ public class UserAction extends HttpServlet {
             req.setAttribute("message", "...");
             req.getRequestDispatcher("singup.jsp").forward(req, resp);
         }
-
-        String[] hobbies = req.getParameterValues("hobbies");
-        String[] cities = req.getParameterValues("cities");
-
 
         Connection connection = Db.getConnection();
         PreparedStatement statement = null;
@@ -75,15 +77,13 @@ public class UserAction extends HttpServlet {
                 req.setAttribute("message", "手机号已经存在");
                 req.getRequestDispatcher("signup.jsp").forward(req, resp);
             } else {
-                String sql = "INSERT INTO db_javaee.user VALUES (NULL ,?,?,?,?,?)";
+                String sql = "INSERT INTO db_javaee.user VALUES (NULL ,?,?,?)";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, nick);
                 statement.setString(2, mobile);
                 statement.setString(3, password);
-                statement.setString(4, Arrays.toString(hobbies));
-                statement.setString(5, Arrays.toString(cities));
                 statement.executeUpdate();
-                resp.sendRedirect("index.jsp");
+                resp.sendRedirect("default.jsp");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class UserAction extends HttpServlet {
                 statement = connection.prepareStatement(sql);
             } else {
                 req.setAttribute("message","error");
-                req.getRequestDispatcher("index.jsp").forward(req,resp);
+                req.getRequestDispatcher("default.jsp").forward(req,resp);
                 return;
             }
             statement.setString(1, mobile);
@@ -113,13 +113,13 @@ public class UserAction extends HttpServlet {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 req.getSession().setAttribute("nick", resultSet.getString("nick"));
-                resp.sendRedirect("home.jsp");
-//                req.getRequestDispatcher("home.jsp")
+                resp.sendRedirect("student?action=queryAll");
+//                req.getRequestDispatcher("index.jsp")
 //                        .forward(req, resp);
             } else {
-//        resp.sendRedirect("index.jsp");// redirect 重定向 地址栏有变化
+//        resp.sendRedirect("default.jsp");// redirect 重定向 地址栏有变化
                 req.setAttribute("message", "手机号或密码错误");// attribute 属性（string，任意类型对象）
-                req.getRequestDispatcher("index.jsp")
+                req.getRequestDispatcher("default.jsp")
                         .forward(req, resp);// forward 转发 地址栏没有变化
             }
         } catch (SQLException e) {
@@ -132,7 +132,7 @@ public class UserAction extends HttpServlet {
 
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
         req.getSession().invalidate();
-        resp.sendRedirect("index.jsp");
+        resp.sendRedirect("default.jsp");
     }
 
 
