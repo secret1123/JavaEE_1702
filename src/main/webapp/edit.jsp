@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1 style="text-align: center;color: cornflowerblue">编辑</h1>
+<h1 class="h1">编辑</h1>
 <form action="student" method="post" style="text-align: center">
     <input type="hidden" name="action" value="modify">
     <input type="hidden" name="id" value="<%=((Student)session.getAttribute("student")).getId()%>">

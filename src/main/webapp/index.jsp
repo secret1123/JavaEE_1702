@@ -34,7 +34,7 @@
     <input type="text" name="name" placeholder="姓名"><br>
     <input type="text" name="gender" placeholder="性别"><br>
     <input type="date" name="dob" placeholder="出生日期"><br>
-    <input style="color: forestgreen" type="submit" value="添加">
+    <input style="text-align: center;color: darkseagreen;" type="submit" value="添加">
 </form>
 <hr>
 <table id="table" border="1">
@@ -54,7 +54,7 @@
     </c:choose>
     <c:forEach var="student" items="${sessionScope.students}" varStatus="vs">
         <tr>
-            <td>${vs.count}</td>
+            <td><input type="checkbox" name="name" placeholder="">${vs.count}</td>
             <td>${student.name}</td>
             <td>${student.gender}</td>
             <td>${student.dob}</td>
@@ -63,6 +63,9 @@
         </tr>
     </c:forEach>
 </table>
+<br>
+<input class="a" type="submit" value="选择删除" onclick="return del()">
+<hr>
 <p class="p">${requestScope.message}</p>
 </body>
 </html>
