@@ -1,14 +1,15 @@
 
 .h1 {
     text-align: center;
-    color: cornflowerblue;
+    color: deepskyblue;
+    font-family: cursive;
 }
 
 .a {
     margin-left:600px;
     color: darkseagreen;
     cursor: pointer;
-    font-family: 'Apple Color Emoji';
+    font-family: 'Apple Color Emoji', cursive;
 }
 
 #table {

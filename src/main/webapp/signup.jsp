@@ -11,7 +11,7 @@
     <title>signup page</title>
 </head>
 <body>
-<h1 class="h1">注册</h1>
+<h1 style="text-align: center;color: dodgerblue;font-family: serif">注册</h1>
 <form action="user" method="post" style="text-align: center">
     <input type="hidden" name="action" value="register"><br>
     <input type="text" name="nick" placeholder="昵称"><br>
@@ -19,6 +19,6 @@
     <input type="password" name="password" placeholder="密码"><br>
     <input style="color: forestgreen" type="submit" value="注册">
 </form>
-<p class="p"><%=request.getAttribute("message")!=null?request.getAttribute("message"):""%></p>
+<p class="p">${requestScope.message}</p>
 </body>
 </html>

@@ -2,6 +2,7 @@ package demo.servlet;
 
 import demo.model.Student;
 import demo.util.Db;
+import demo.util.Error;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,7 +49,7 @@ public class StudentAction extends HttpServlet {
             return;
         }
         if ("delete".equals(action)) {
-            remove(req, resp);
+            delete(req, resp);
             return;
         }
         req.setAttribute("message", "出现问题");
@@ -69,8 +70,7 @@ public class StudentAction extends HttpServlet {
             if (connection != null) {
                 statement = connection.prepareStatement(sql);
             } else {
-                req.setAttribute("message", "出现问题");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                Error.showErrorMessage(req,resp);
                 return;
             }
             statement.setString(1, name);
@@ -97,8 +97,7 @@ public class StudentAction extends HttpServlet {
             if (connection != null) {
                 statement = connection.prepareStatement(sql);
             } else {
-                req.setAttribute("message", "出现问题");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                Error.showErrorMessage(req,resp);
                 return;
             }
             resultSet = statement.executeQuery();
@@ -132,8 +131,7 @@ public class StudentAction extends HttpServlet {
             if (connection != null) {
                 statement = connection.prepareStatement(sql);
             } else {
-                req.setAttribute("message", "出现问题");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                Error.showErrorMessage(req,resp);
                 return;
             }
             statement.setInt(1, id);
@@ -167,8 +165,7 @@ public class StudentAction extends HttpServlet {
             if (connection != null) {
                 statement = connection.prepareStatement(sql);
             } else {
-                req.setAttribute("message", "出现问题");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                Error.showErrorMessage(req,resp);
                 return;
             }
             statement.setString(1, name);
@@ -184,9 +181,7 @@ public class StudentAction extends HttpServlet {
         }
     }
 
-    private void remove(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
-       int id = Integer.parseInt(req.getParameter("id"));
-
+    private void removeById(int id,HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
         Connection connection = Db.getConnection();
         PreparedStatement statement = null;
 
@@ -194,14 +189,12 @@ public class StudentAction extends HttpServlet {
         try {
             if (connection != null) {
                 statement = connection.prepareStatement(sql);
-            } else {
-                req.setAttribute("message", "出现问题");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+            }else {
+                Error.showErrorMessage(req,resp);
                 return;
             }
             statement.setInt(1,id);
             statement.executeUpdate();
-            resp.sendRedirect("student?action=queryAll");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -209,30 +202,26 @@ public class StudentAction extends HttpServlet {
         }
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
+    private void remove(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
         int id = Integer.parseInt(req.getParameter("id"));
+        removeById(id,req,resp);
+        resp.sendRedirect("student?action=queryAll");
+    }
 
-        Connection connection = Db.getConnection();
-        PreparedStatement statement = null;
+        private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
+            String[] ids = req.getParameterValues("ids");
 
-        String sql = "DELETE FROM db_javaee.student WHERE id = ?";
-        try {
-            if (connection != null) {
-                statement = connection.prepareStatement(sql);
-            } else {
-                req.setAttribute("message", "出现问题");
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+            if (ids == null) {
+                req.setAttribute("message","没有记录");
+                req.getRequestDispatcher("index.jsp").forward(req,resp);
                 return;
             }
-            statement.setInt(1,id);
-            statement.executeUpdate();
+            for (String idString : ids) {
+                int id = Integer.parseInt(idString);
+                removeById(id, req, resp);
+            }
             resp.sendRedirect("student?action=queryAll");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Db.close(null, statement, connection);
         }
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

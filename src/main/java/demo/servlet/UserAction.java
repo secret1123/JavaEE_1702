@@ -1,6 +1,7 @@
 package demo.servlet;
 
 import demo.util.Db;
+import demo.util.Error;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,6 +59,7 @@ public class UserAction extends HttpServlet {
             if (connection != null) {
                 statement = connection.prepareStatement(sqlNick);
             } else {
+                Error.showErrorMessage(req,resp);
                 return;
             }
             statement.setString(1, nick);
@@ -104,8 +106,7 @@ public class UserAction extends HttpServlet {
             if (connection != null) {
                 statement = connection.prepareStatement(sql);
             } else {
-                req.setAttribute("message","error");
-                req.getRequestDispatcher("default.jsp").forward(req,resp);
+                Error.showErrorMessage(req,resp);
                 return;
             }
             statement.setString(1, mobile);
