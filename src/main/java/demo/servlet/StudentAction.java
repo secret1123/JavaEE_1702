@@ -47,6 +47,10 @@ public class StudentAction extends HttpServlet {
             remove(req, resp);
             return;
         }
+        if ("delete".equals(action)) {
+            remove(req, resp);
+            return;
+        }
         req.setAttribute("message", "出现问题");
         req.getRequestDispatcher("default.jsp").forward(req, resp);
     }
@@ -182,6 +186,31 @@ public class StudentAction extends HttpServlet {
 
     private void remove(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
        int id = Integer.parseInt(req.getParameter("id"));
+
+        Connection connection = Db.getConnection();
+        PreparedStatement statement = null;
+
+        String sql = "DELETE FROM db_javaee.student WHERE id = ?";
+        try {
+            if (connection != null) {
+                statement = connection.prepareStatement(sql);
+            } else {
+                req.setAttribute("message", "出现问题");
+                req.getRequestDispatcher("index.jsp").forward(req, resp);
+                return;
+            }
+            statement.setInt(1,id);
+            statement.executeUpdate();
+            resp.sendRedirect("student?action=queryAll");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Db.close(null, statement, connection);
+        }
+    }
+
+    private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
+        int id = Integer.parseInt(req.getParameter("id"));
 
         Connection connection = Db.getConnection();
         PreparedStatement statement = null;

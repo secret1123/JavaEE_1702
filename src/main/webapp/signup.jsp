@@ -11,15 +11,15 @@
     <title>signup page</title>
 </head>
 <body>
-<h1>注册</h1>
-<form action="user" method="post">
+<h1 style="text-align: center;color: cornflowerblue">注册</h1>
+<form action="user" method="post" style="text-align: center">
     <input type="hidden" name="action" value="register"><br>
     <input type="text" name="nick" placeholder="昵称"><br>
     <input type="text" name="mobile" placeholder="手机号"><br>
     <input type="password" name="password" placeholder="密码"><br>
-    <input type="submit" value="注册">
+    <input style="color: forestgreen" type="submit" value="注册">
 </form>
-<p><%=request.getAttribute("message")!=null?request.getAttribute("message"):""%></p>
+<p style="text-align: center;color: firebrick"><%=request.getAttribute("message")!=null?request.getAttribute("message"):""%></p>
 <%--<%--%>
     <%--String message = (String) request.getAttribute("message");--%>
     <%--if (message != null) {--%>

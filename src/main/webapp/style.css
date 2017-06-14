@@ -1,0 +1,23 @@
+
+.h1 {
+    text-align: center;
+    color: cornflowerblue;
+}
+
+.a {
+    margin-left:600px;
+    color: darkseagreen;
+    cursor: pointer;
+    font-family: 'Apple Color Emoji';
+}
+
+#table {
+    text-align: center;
+    margin-left: 480px;
+    border: 1px lightsteelblue;
+}
+
+.p {
+    text-align: center;
+    color: firebrick;
+}
